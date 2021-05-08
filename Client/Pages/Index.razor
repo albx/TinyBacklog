@@ -1,0 +1,77 @@
+﻿@page "/"
+@inject HttpClient Http
+
+<h1>TinyBacklog</h1>
+
+<div class="row">
+    <div class="col-md-8">
+        @if (tasks is null || !tasks.Any())
+        {
+            <h2>No task</h2>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var task in tasks)
+                    {
+                        <tr>
+                            <td>@task.Title</td>
+                            <td>@task.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+    <div class="col-md-4">
+        <EditForm Model="currentTask" OnValidSubmit="SaveTask">
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label>Title</label>
+                <InputText @bind-Value="currentTask.Title" class="form-control" />
+                <ValidationMessage For="@(() => currentTask.Title)" />
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <InputTextArea @bind-Value="currentTask.Description" class="form-control" />
+            </div>
+
+            <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-outline-primary">Cancel</button>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    IEnumerable<TaskViewModel> tasks;
+    TaskViewModel currentTask = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await LoadTasks();
+    }
+
+    async Task LoadTasks() 
+        => tasks = await Http.GetFromJsonAsync<IEnumerable<TaskViewModel>>("api/TaskList");
+
+    async Task SaveTask()
+    {
+        var response = await Http.PostAsJsonAsync("api/CreateTask", currentTask);
+        if (response.IsSuccessStatusCode)
+        {
+            currentTask = new();
+            await LoadTasks();
+        }
+    }
+}
