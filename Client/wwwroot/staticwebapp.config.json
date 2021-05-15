@@ -11,12 +11,6 @@
     {
       "route": "/logout",
       "redirect": "/.auth/logout"
-    },
-    {
-      "route": "/*",
-      "rewrite": "/index.html",
-      "methods": [ "GET" ],
-      "allowedRoles": [ "authenticated" ]
     }
   ],
   "navigationFallback": {
