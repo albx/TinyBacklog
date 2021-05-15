@@ -11,7 +11,7 @@
     {
       "route": "/logout",
       "redirect": "/.auth/logout"
-    }
+    },
     {
       "route": "/*",
       "rewrite": "/index.html",
