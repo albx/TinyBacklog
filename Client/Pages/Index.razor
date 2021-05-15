@@ -15,6 +15,7 @@
                 <thead>
                     <tr>
                         <th>Title</th>
+                        <th>User</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -23,6 +24,7 @@
                     {
                         <tr>
                             <td>@task.Title</td>
+                            <td>@task.User?.UserName</td>
                             <td>@task.Status</td>
                         </tr>
                     }

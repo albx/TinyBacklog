@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using TinyBacklog.Shared;
+using System.Linq;
+using System.Security.Claims;
 
 namespace TinyBacklog.Api
 {
@@ -20,11 +22,19 @@ namespace TinyBacklog.Api
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
+            var identity = ClientPrincipalBuilder.BuildFromHttpRequest(req);
+
             using var reader = new StreamReader(req.Body);
             string requestBody = await reader.ReadToEndAsync();
 
             var task = JsonConvert.DeserializeObject<TaskViewModel>(requestBody);
             task.Id = ++TaskDatabase.LastId;
+
+            task.User = new TaskViewModel.UserDescriptor
+            {
+                UserId = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
+                UserName = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value
+            };
 
             TaskDatabase.Tasks.Add(task);
 

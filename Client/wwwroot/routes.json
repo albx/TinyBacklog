@@ -1,9 +1,14 @@
 {
   "routes": [
     {
+      "route": "/login/github",
+      "serve": "/.auth/login/github"
+    }
+    {
       "route": "/*",
       "serve": "/index.html",
-      "statusCode": 200
+      "statusCode": 200,
+      "allowedRoles": [ "authenticated" ]
     }
   ]
 }
