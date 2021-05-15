@@ -3,12 +3,6 @@
     {
       "route": "/api/*",
       "allowedRoles": [ "authenticated" ]
-    },
-    {
-      "route": "/*",
-      "rewrite": "/index.html",
-      "methods": [ "GET" ],
-      "allowedRoles": [ "authenticated" ]
     }
   ],
   "navigationFallback": {
