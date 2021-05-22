@@ -10,13 +10,21 @@ using Newtonsoft.Json;
 using TinyBacklog.Shared;
 using System.Linq;
 using System.Security.Claims;
+using TinyBacklog.Core;
 
 namespace TinyBacklog.Api
 {
-    public static class CreateTaskFunction
+    public class CreateTaskFunction
     {
+        public ITaskStore Store { get; }
+
+        public CreateTaskFunction(ITaskStore store)
+        {
+            Store = store ?? throw new ArgumentNullException(nameof(store));
+        }
+
         [FunctionName("CreateTask")]
-        public static async Task<IActionResult> Run(
+        public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
             ILogger log)
         {
@@ -28,7 +36,7 @@ namespace TinyBacklog.Api
             string requestBody = await reader.ReadToEndAsync();
 
             var task = JsonConvert.DeserializeObject<TaskViewModel>(requestBody);
-            task.Id = ++TaskDatabase.LastId;
+            task.Id = Guid.NewGuid();
 
             task.User = new TaskViewModel.UserDescriptor
             {
@@ -36,7 +44,15 @@ namespace TinyBacklog.Api
                 UserName = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value
             };
 
-            TaskDatabase.Tasks.Add(task);
+            var userId = string.IsNullOrWhiteSpace(task.User?.UserId) ? "Dev-alberto" : task.User.UserId;
+            var userName = string.IsNullOrWhiteSpace(task.User?.UserName) ? "albx" : task.User.UserName;
+
+            await Store.AddNewTask(
+                task.Id,
+                task.Title,
+                task.Description,
+                userId,
+                userName);
 
             return new OkObjectResult(task);
         }

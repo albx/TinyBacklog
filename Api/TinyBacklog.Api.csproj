@@ -4,9 +4,12 @@
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+    <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.15" />
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.12" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TinyBacklog.Core\TinyBacklog.Core.csproj" />
     <ProjectReference Include="..\TinyBacklog.Shared\TinyBacklog.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
