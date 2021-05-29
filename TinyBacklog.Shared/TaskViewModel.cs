@@ -12,13 +12,14 @@ namespace TinyBacklog.Shared
 
         public string Description { get; set; }
 
-        public TaskStatus Status { get; set; } = TaskStatus.Open;
+        public TaskStatus Status { get; set; } = TaskStatus.ToDo;
 
         public UserDescriptor User { get; set; }
 
         public enum TaskStatus
         {
-            Open,
+            ToDo,
+            InProgress,
             Completed
         }
 

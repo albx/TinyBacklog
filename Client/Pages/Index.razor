@@ -32,6 +32,21 @@
                                     <button type="button" class="btn btn-primary" aria-label="Edit task" @onclick="() => EditTask(task)">
                                         <span class="oi oi-pencil"></span>
                                     </button>
+                                    @if (task.Status == TaskViewModel.TaskStatus.ToDo)
+                                    {
+                                        <button type="button" class="btn btn-outline-primary" aria-label="Start working on task" @onclick="() => StartTask(task)">
+                                            <span class="oi oi-timer"></span>
+                                        </button>
+                                    }
+                                    else if (task.Status == TaskViewModel.TaskStatus.InProgress)
+                                    {
+                                        <button type="button" class="btn btn-outline-success" aria-label="Complete task" @onclick="() => CompleteTask(task)">
+                                            <span class="oi oi-check"></span>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning" aria-label="Move back task" @onclick="() => MoveBackTask(task)">
+                                            <span class="oi oi-media-skip-backward"></span>
+                                        </button>
+                                    }
                                 </div>
                                 @*<button type="button" class="btn btn-danger" aria-label="Delete task" @onclick="() => DeleteTask(task)">
                                     <span class="oi oi-trash"></span>
@@ -117,6 +132,51 @@
         if (response.IsSuccessStatusCode)
         {
             tasks.Remove(task);
+        }
+    }
+
+    async Task StartTask(TaskViewModel task)
+    {
+        var model = new UpdateTaskStatusViewModel
+        {
+            TaskId = task.Id,
+            Status = TaskViewModel.TaskStatus.InProgress
+        };
+
+        var response = await Http.PatchAsync("api/UpdateTaskStatus", JsonContent.Create(model));
+        if (response.IsSuccessStatusCode)
+        {
+            task.Status = TaskViewModel.TaskStatus.InProgress;
+        }
+    }
+
+    async Task CompleteTask(TaskViewModel task)
+    {
+        var model = new UpdateTaskStatusViewModel
+        {
+            TaskId = task.Id,
+            Status = TaskViewModel.TaskStatus.Completed
+        };
+
+        var response = await Http.PatchAsync("api/UpdateTaskStatus", JsonContent.Create(model));
+        if (response.IsSuccessStatusCode)
+        {
+            task.Status = TaskViewModel.TaskStatus.Completed;
+        }
+    }
+
+    async Task MoveBackTask(TaskViewModel task)
+    {
+        var model = new UpdateTaskStatusViewModel
+        {
+            TaskId = task.Id,
+            Status = TaskViewModel.TaskStatus.ToDo
+        };
+
+        var response = await Http.PatchAsync("api/UpdateTaskStatus", JsonContent.Create(model));
+        if (response.IsSuccessStatusCode)
+        {
+            task.Status = TaskViewModel.TaskStatus.ToDo;
         }
     }
 

@@ -16,7 +16,7 @@ namespace TinyBacklog.Core.Entities
 
         public enum TaskStatus
         {
-            Open = 0,
+            ToDo = 0,
             Completed = 1,
             InProgress = 2
         }

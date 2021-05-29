@@ -26,7 +26,8 @@ namespace TinyBacklog.Api.Extensions
             return status switch
             {
                 Task.TaskStatus.Completed => TaskViewModel.TaskStatus.Completed,
-                _ => TaskViewModel.TaskStatus.Open
+                Task.TaskStatus.InProgress => TaskViewModel.TaskStatus.InProgress,
+                _ => TaskViewModel.TaskStatus.ToDo
             };
         }
     }

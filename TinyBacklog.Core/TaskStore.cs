@@ -56,8 +56,17 @@ namespace TinyBacklog.Core
             return _client.UpsertEntityAsync(entity);
         }
 
-        public Task UpdateTaskStatus(Entities.Task task, Entities.Task.TaskStatus status)
+        public Task UpdateTaskStatus(Guid taskId, Entities.Task.TaskStatus status)
         {
+            var task = _client.Query<TableEntity>(t => t[nameof(Entities.Task.Id)].Equals(taskId))
+                .FirstOrDefault()?
+                .ToTaskEntity();
+
+            if (task is null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(task));
+            }
+
             task.Status = status;
             var entity = task.ToTableEntity();
 

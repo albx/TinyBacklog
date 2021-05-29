@@ -15,6 +15,6 @@ namespace TinyBacklog.Core
 
         Task<IEnumerable<TaskEntity>> GetAllTasks(string userId);
 
-        Task UpdateTaskStatus(TaskEntity task, TaskEntity.TaskStatus status);
+        Task UpdateTaskStatus(Guid taskId, TaskEntity.TaskStatus status);
     }
 }
