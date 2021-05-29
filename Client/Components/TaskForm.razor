@@ -1,0 +1,33 @@
+﻿<EditForm Model="Task" OnValidSubmit="SaveTask">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label>Title</label>
+        <InputText @bind-Value="Task.Title" class="form-control" />
+        <ValidationMessage For="@(() => Task.Title)" />
+    </div>
+    <div class="form-group">
+        <label>Description</label>
+        <InputTextArea @bind-Value="Task.Description" class="form-control" />
+    </div>
+
+    <div class="btn-group">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-outline-primary" @onclick="Cancel">Cancel</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter]
+    public TaskViewModel Task { get; set; }
+
+    [Parameter]
+    public EventCallback<TaskViewModel> OnTaskSaved { get; set; }
+
+    [Parameter]
+    public EventCallback OnTaskEditingCanceled { get; set; }
+
+    async Task SaveTask() => await OnTaskSaved.InvokeAsync(Task);
+
+    async Task Cancel() => await OnTaskEditingCanceled.InvokeAsync();
+}

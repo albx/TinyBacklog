@@ -5,78 +5,16 @@
 
 <div class="row">
     <div class="col-md-8">
-        @if (tasks is null || !tasks.Any())
-        {
-            <h2>No task</h2>
-        }
-        else
-        {
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>User</th>
-                        <th>Status</th>
-                        <th>&nbsp;</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var task in tasks)
-                    {
-                        <tr>
-                            <td>@task.Title</td>
-                            <td>@task.User?.UserName</td>
-                            <td>@task.Status</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-primary" aria-label="Edit task" @onclick="() => EditTask(task)">
-                                        <span class="oi oi-pencil"></span>
-                                    </button>
-                                    @if (task.Status == TaskViewModel.TaskStatus.ToDo)
-                                    {
-                                        <button type="button" class="btn btn-outline-primary" aria-label="Start working on task" @onclick="() => StartTask(task)">
-                                            <span class="oi oi-timer"></span>
-                                        </button>
-                                    }
-                                    else if (task.Status == TaskViewModel.TaskStatus.InProgress)
-                                    {
-                                        <button type="button" class="btn btn-outline-success" aria-label="Complete task" @onclick="() => CompleteTask(task)">
-                                            <span class="oi oi-check"></span>
-                                        </button>
-                                        <button type="button" class="btn btn-outline-warning" aria-label="Move back task" @onclick="() => MoveBackTask(task)">
-                                            <span class="oi oi-media-skip-backward"></span>
-                                        </button>
-                                    }
-                                </div>
-                                @*<button type="button" class="btn btn-danger" aria-label="Delete task" @onclick="() => DeleteTask(task)">
-                                    <span class="oi oi-trash"></span>
-                                </button>*@
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
+        <TaskGrid Tasks="tasks"
+                  OnTaskEditing="EditTask"
+                  OnTaskStarted="StartTask"
+                  OnTaskCompleted="CompleteTask"
+                  OnTaskMovedBack="MoveBackTask"/>
     </div>
     <div class="col-md-4">
-        <EditForm Model="currentTask" OnValidSubmit="SaveTask">
-            <DataAnnotationsValidator />
-
-            <div class="form-group">
-                <label>Title</label>
-                <InputText @bind-Value="currentTask.Title" class="form-control" />
-                <ValidationMessage For="@(() => currentTask.Title)" />
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <InputTextArea @bind-Value="currentTask.Description" class="form-control" />
-            </div>
-
-            <div class="btn-group">
-                <button type="submit" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-outline-primary">Cancel</button>
-            </div>
-        </EditForm>
+        <TaskForm Task="currentTask"
+                  OnTaskEditingCanceled="Cancel"
+                  OnTaskSaved="SaveTask"/>
     </div>
 </div>
 
@@ -93,21 +31,21 @@
     async Task LoadTasks()
         => tasks = await Http.GetFromJsonAsync<IList<TaskViewModel>>("api/TaskList");
 
-    async Task SaveTask()
+    async Task SaveTask(TaskViewModel task)
     {
-        if (currentTask.Id == Guid.Empty)
+        if (task.Id == Guid.Empty)
         {
-            await CreateNewTask();
+            await CreateNewTask(task);
         }
         else
         {
-            await UpdateTask();
+            await UpdateTask(task);
         }
     }
 
-    private async Task CreateNewTask()
+    private async Task CreateNewTask(TaskViewModel task)
     {
-        var response = await Http.PostAsJsonAsync("api/CreateTask", currentTask);
+        var response = await Http.PostAsJsonAsync("api/CreateTask", task);
         if (response.IsSuccessStatusCode)
         {
             currentTask = new();
@@ -117,9 +55,9 @@
         }
     }
 
-    private async Task UpdateTask()
+    private async Task UpdateTask(TaskViewModel task)
     {
-        var response = await Http.PutAsJsonAsync("api/UpdateTask", currentTask);
+        var response = await Http.PutAsJsonAsync("api/UpdateTask", task);
         if (response.IsSuccessStatusCode)
         {
             currentTask = new();
@@ -181,4 +119,6 @@
     }
 
     void EditTask(TaskViewModel task) => currentTask = task;
+
+    void Cancel() => currentTask = new();
 }
