@@ -11,12 +11,10 @@ namespace TinyBacklog.Core
 
         Task UpdateTask(TaskEntity task);
 
-        Task DeleteTask(TaskEntity task);
+        Task DeleteTask(Guid taskId);
 
         Task<IEnumerable<TaskEntity>> GetAllTasks(string userId);
 
-        Task CompleteTask(TaskEntity task);
-
-        Task StartTask(TaskEntity task);
+        Task UpdateTaskStatus(TaskEntity task, TaskEntity.TaskStatus status);
     }
 }

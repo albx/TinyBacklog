@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Api", "Api\Tiny
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Shared", "TinyBacklog.Shared\TinyBacklog.Shared.csproj", "{837CD8F9-188C-46EC-A413-1746A1B88746}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinyBacklog.Core", "TinyBacklog.Core\TinyBacklog.Core.csproj", "{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Core", "TinyBacklog.Core\TinyBacklog.Core.csproj", "{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

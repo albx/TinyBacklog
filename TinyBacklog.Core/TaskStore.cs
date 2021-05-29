@@ -28,18 +28,18 @@ namespace TinyBacklog.Core
             return _client.AddEntityAsync(entity);
         }
 
-        public Task CompleteTask(Entities.Task task)
+        public Task DeleteTask(Guid taskId)
         {
-            task.Status = Entities.Task.TaskStatus.Completed;
-            var entity = task.ToTableEntity();
+            var entity = _client.Query<TableEntity>(t => t[nameof(Entities.Task.Id)].Equals(taskId))
+                .FirstOrDefault();
 
-            return _client.UpsertEntityAsync(entity);
-        }
+            if (entity is null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(taskId));
+            }
 
-        public Task DeleteTask(Entities.Task task)
-        {
-            var entity = task.ToTableEntity();
-            return _client.DeleteEntityAsync(entity.PartitionKey, entity.RowKey);
+            var response = _client.DeleteEntity(entity.PartitionKey, entity.RowKey, entity.ETag);
+            return Task.CompletedTask;
         }
 
         public Task<IEnumerable<Entities.Task>> GetAllTasks(string userId)
@@ -50,17 +50,17 @@ namespace TinyBacklog.Core
             return Task.FromResult(tasks);
         }
 
-        public Task StartTask(Entities.Task task)
-        {
-            task.Status = Entities.Task.TaskStatus.InProgress;
-            var entity = task.ToTableEntity();
-
-            return _client.UpsertEntityAsync(entity);
-        }
-
         public Task UpdateTask(Entities.Task task)
         {
             var entity = task.ToTableEntity();
+            return _client.UpsertEntityAsync(entity);
+        }
+
+        public Task UpdateTaskStatus(Entities.Task task, Entities.Task.TaskStatus status)
+        {
+            task.Status = status;
+            var entity = task.ToTableEntity();
+
             return _client.UpsertEntityAsync(entity);
         }
     }
