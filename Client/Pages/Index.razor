@@ -55,7 +55,7 @@
 </div>
 
 @code {
-    IEnumerable<TaskViewModel> tasks;
+    IList<TaskViewModel> tasks;
     TaskViewModel currentTask = new();
 
     protected override async Task OnInitializedAsync()
@@ -64,8 +64,8 @@
         await LoadTasks();
     }
 
-    async Task LoadTasks() 
-        => tasks = await Http.GetFromJsonAsync<IEnumerable<TaskViewModel>>("api/TaskList");
+    async Task LoadTasks()
+        => tasks = await Http.GetFromJsonAsync<IList<TaskViewModel>>("api/TaskList");
 
     async Task SaveTask()
     {
@@ -73,7 +73,9 @@
         if (response.IsSuccessStatusCode)
         {
             currentTask = new();
-            await LoadTasks();
+
+            var newTask = await response.Content.ReadFromJsonAsync<TaskViewModel>();
+            tasks.Add(newTask);
         }
     }
 }

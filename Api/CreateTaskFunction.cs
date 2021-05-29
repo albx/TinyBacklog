@@ -11,6 +11,7 @@ using TinyBacklog.Shared;
 using System.Linq;
 using System.Security.Claims;
 using TinyBacklog.Core;
+using TinyBacklog.Api.Extensions;
 
 namespace TinyBacklog.Api
 {
@@ -32,27 +33,21 @@ namespace TinyBacklog.Api
 
             var identity = ClientPrincipalBuilder.BuildFromHttpRequest(req);
 
-            using var reader = new StreamReader(req.Body);
-            string requestBody = await reader.ReadToEndAsync();
-
-            var task = JsonConvert.DeserializeObject<TaskViewModel>(requestBody);
+            var task = await req.ParseRequestBodyAsync<TaskViewModel>();
             task.Id = Guid.NewGuid();
+
+            var userId = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var userName = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
             task.User = new TaskViewModel.UserDescriptor
             {
-                UserId = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
-                UserName = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value
+                UserId = string.IsNullOrWhiteSpace(userId) ? "Dev-alberto" : userId,
+                UserName = string.IsNullOrWhiteSpace(userName) ? "albx" : userName
             };
 
-            var userId = string.IsNullOrWhiteSpace(task.User?.UserId) ? "Dev-alberto" : task.User.UserId;
-            var userName = string.IsNullOrWhiteSpace(task.User?.UserName) ? "albx" : task.User.UserName;
+            var entity = task.ToTaskEntity();
 
-            await Store.AddNewTask(
-                task.Id,
-                task.Title,
-                task.Description,
-                userId,
-                userName);
+            await Store.AddNewTask(entity);
 
             return new OkObjectResult(task);
         }

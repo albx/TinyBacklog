@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace TinyBacklog.Core.Entities
 {
@@ -19,7 +17,8 @@ namespace TinyBacklog.Core.Entities
         public enum TaskStatus
         {
             Open = 0,
-            Completed = 1
+            Completed = 1,
+            InProgress = 2
         }
 
         public class UserDescriptor

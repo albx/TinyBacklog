@@ -28,24 +28,6 @@ namespace TinyBacklog.Core
             return _client.AddEntityAsync(entity);
         }
 
-        public Task AddNewTask(Guid taskId, string taskTitle, string taskDescription, string userId, string userName)
-        {
-            var task = new Entities.Task
-            {
-                Id = taskId,
-                Title = taskTitle,
-                Description = taskDescription,
-                Status = Entities.Task.TaskStatus.Open,
-                User = new Entities.Task.UserDescriptor
-                {
-                    UserId = userId,
-                    UserName = userName
-                }
-            };
-
-            return AddNewTask(task);
-        }
-
         public Task CompleteTask(Entities.Task task)
         {
             task.Status = Entities.Task.TaskStatus.Completed;
@@ -60,12 +42,20 @@ namespace TinyBacklog.Core
             return _client.DeleteEntityAsync(entity.PartitionKey, entity.RowKey);
         }
 
-        public Task<IEnumerable<Entities.Task>> GetAllTasks()
+        public Task<IEnumerable<Entities.Task>> GetAllTasks(string userId)
         {
-            var entities = _client.Query<TableEntity>();
+            var entities = _client.Query<TableEntity>(t => t[nameof(Entities.Task.UserDescriptor.UserId)].Equals(userId));
             var tasks = entities.Select(e => e.ToTaskEntity());
 
             return Task.FromResult(tasks);
+        }
+
+        public Task StartTask(Entities.Task task)
+        {
+            task.Status = Entities.Task.TaskStatus.InProgress;
+            var entity = task.ToTableEntity();
+
+            return _client.UpsertEntityAsync(entity);
         }
 
         public Task UpdateTask(Entities.Task task)

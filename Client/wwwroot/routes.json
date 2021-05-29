@@ -3,7 +3,7 @@
     {
       "route": "/login/github",
       "serve": "/.auth/login/github"
-    }
+    },
     {
       "route": "/*",
       "serve": "/index.html",
