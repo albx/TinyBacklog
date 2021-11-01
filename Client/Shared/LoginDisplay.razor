@@ -1,0 +1,13 @@
+﻿<AuthorizeView>
+	<Authorized>
+		@context.User.Identity.Name
+		<a href="logout">Logout</a>
+	</Authorized>
+	<NotAuthorized>
+		<a href="login/github">Login</a>
+	</NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}
