@@ -11,7 +11,8 @@
                   OnTaskEditing="EditTask"
                   OnTaskStarted="StartTask"
                   OnTaskCompleted="CompleteTask"
-                  OnTaskMovedBack="MoveBackTask"/>
+                  OnTaskMovedBack="MoveBackTask"
+                  OnTaskRemoved="DeleteTask"/>
     </div>
     <div class="col-md-4">
         <TaskForm Task="currentTask"
@@ -21,7 +22,7 @@
 </div>
 
 @code {
-    IList<TaskViewModel> tasks;
+    IList<TaskViewModel>? tasks;
     TaskViewModel currentTask = new();
 
     protected override async Task OnInitializedAsync()
@@ -53,7 +54,10 @@
             currentTask = new();
 
             var newTask = await response.Content.ReadFromJsonAsync<TaskViewModel>();
-            tasks.Add(newTask);
+            if (newTask is not null)
+            {
+                tasks?.Add(newTask);
+            }
         }
     }
 
@@ -71,7 +75,7 @@
         var response = await Http.DeleteAsync($"api/DeleteTask/{task.Id}");
         if (response.IsSuccessStatusCode)
         {
-            tasks.Remove(task);
+            tasks?.Remove(task);
         }
     }
 

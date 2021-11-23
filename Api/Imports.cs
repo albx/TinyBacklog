@@ -1,0 +1,9 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Azure.WebJobs;
+global using Microsoft.Azure.WebJobs.Extensions.Http;
+global using Microsoft.AspNetCore.Http;
+global using Microsoft.Extensions.Logging;
+global using TinyBacklog.Core;
+global using TinyBacklog.Shared;
+global using TinyBacklog.Api.Extensions;
+global using System.Security.Claims;

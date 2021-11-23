@@ -25,6 +25,12 @@ else
                             <button type="button" class="btn btn-primary" aria-label="Edit task" @onclick="() => EditTask(task)">
                                 <span class="oi oi-pencil"></span>
                             </button>
+                            @if (task.Status != TaskViewModel.TaskStatus.Completed)
+                            {
+                                <button type="button" class="btn btn-outline-danger" aria-label="Start working on task" @onclick="() => RemoveTask(task)">
+                                    <span class="oi oi-trash"></span>
+                                </button>
+                            }
                             @if (task.Status == TaskViewModel.TaskStatus.ToDo)
                             {
                                 <button type="button" class="btn btn-outline-primary" aria-label="Start working on task" @onclick="() => StartTask(task)">
@@ -50,7 +56,7 @@ else
 
 @code {
     [Parameter]
-    public IList<TaskViewModel> Tasks { get; set; }
+    public IList<TaskViewModel>? Tasks { get; set; }
 
     [Parameter]
     public EventCallback<TaskViewModel> OnTaskEditing { get; set; }
@@ -64,6 +70,9 @@ else
     [Parameter]
     public EventCallback<TaskViewModel> OnTaskMovedBack { get; set; }
 
+    [Parameter]
+    public EventCallback<TaskViewModel> OnTaskRemoved{ get; set; }
+
     async Task EditTask(TaskViewModel task) => await OnTaskEditing.InvokeAsync(task);
 
     async Task StartTask(TaskViewModel task) => await OnTaskStarted.InvokeAsync(task);
@@ -71,4 +80,6 @@ else
     async Task CompleteTask(TaskViewModel task) => await OnTaskCompleted.InvokeAsync(task);
 
     async Task MoveBackTask(TaskViewModel task) => await OnTaskMovedBack.InvokeAsync(task);
+
+    async Task RemoveTask(TaskViewModel task) => await OnTaskRemoved.InvokeAsync(task);
 }
