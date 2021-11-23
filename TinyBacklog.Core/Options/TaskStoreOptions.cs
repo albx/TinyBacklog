@@ -1,9 +1,8 @@
-﻿namespace TinyBacklog.Core.Options
-{
-    public class TaskStoreOptions
-    {
-        public string ConnectionString { get; set; }
+﻿namespace TinyBacklog.Core.Options;
 
-        public string TableName { get; set; }
-    }
+public class TaskStoreOptions
+{
+    public string ConnectionString { get; set; }
+
+    public string TableName { get; set; }
 }
