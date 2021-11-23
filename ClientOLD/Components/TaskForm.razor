@@ -19,7 +19,7 @@
 
 @code {
     [Parameter]
-    public TaskViewModel Task { get; set; } = new();
+    public TaskViewModel Task { get; set; }
 
     [Parameter]
     public EventCallback<TaskViewModel> OnTaskSaved { get; set; }

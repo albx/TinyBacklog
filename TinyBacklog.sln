@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31825.309
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Web.App", "Client\TinyBacklog.Web.App.csproj", "{B3A9FD6C-EC79-481D-A357-CA3F56659651}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Api", "Api\TinyBacklog.Api.csproj", "{A22CB56A-0E16-4FA8-BA5A-9F5966779341}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Shared", "TinyBacklog.Shared\TinyBacklog.Shared.csproj", "{837CD8F9-188C-46EC-A413-1746A1B88746}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Core", "TinyBacklog.Core\TinyBacklog.Core.csproj", "{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TinyBacklog.Web.App", "Client\TinyBacklog.Web.App.csproj", "{E4BA47C4-2066-489C-8558-1E08DE356564}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|x64.Build.0 = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Debug|x86.Build.0 = Debug|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|x64.ActiveCfg = Release|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|x64.Build.0 = Release|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|x86.ActiveCfg = Release|Any CPU
-		{B3A9FD6C-EC79-481D-A357-CA3F56659651}.Release|x86.Build.0 = Release|Any CPU
 		{A22CB56A-0E16-4FA8-BA5A-9F5966779341}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A22CB56A-0E16-4FA8-BA5A-9F5966779341}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A22CB56A-0E16-4FA8-BA5A-9F5966779341}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -69,6 +57,18 @@ Global
 		{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}.Release|x64.Build.0 = Release|Any CPU
 		{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}.Release|x86.ActiveCfg = Release|Any CPU
 		{E39F5327-4E2B-49C0-99BE-9FD0E47918F1}.Release|x86.Build.0 = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|x64.Build.0 = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Debug|x86.Build.0 = Debug|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|x64.ActiveCfg = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|x64.Build.0 = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|x86.ActiveCfg = Release|Any CPU
+		{E4BA47C4-2066-489C-8558-1E08DE356564}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
